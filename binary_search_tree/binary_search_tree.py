@@ -49,8 +49,8 @@ class DoublyLinkedList:
 
     def __len__(self):
         return self.length
-    """Wraps the given value in a ListNode and inserts it 
-    as the new head of the list. Don't forget to handle 
+    """Wraps the given value in a ListNode and inserts it
+    as the new head of the list. Don't forget to handle
     the old head node's previous pointer accordingly."""
 
     def add_to_head(self, value):
@@ -71,8 +71,8 @@ class DoublyLinkedList:
         value = self.head.value
         self.delete(self.head)
         return value
-    """Wraps the given value in a ListNode and inserts it 
-    as the new tail of the list. Don't forget to handle 
+    """Wraps the given value in a ListNode and inserts it
+    as the new tail of the list. Don't forget to handle
     the old tail node's next pointer accordingly."""
 
     def add_to_tail(self, value):
@@ -85,7 +85,7 @@ class DoublyLinkedList:
             new_node.prev = self.tail
             self.tail.next = new_node
             self.tail = new_node
-    """Removes the List's current tail node, making the 
+    """Removes the List's current tail node, making the
     current tail's previous node the new tail of the List.
     Returns the value of the removed Node."""
 
@@ -93,14 +93,14 @@ class DoublyLinkedList:
         value = self.tail.value
         self.delete(self.tail)
         return value
-    """Removes the input node from its current spot in the 
+    """Removes the input node from its current spot in the
     List and inserts it as the new head node of the List."""
 
     def move_to_front(self, node):
         value = node.value
         self.delete(node)
         self.add_to_head(value)
-    """Removes the input node from its current spot in the 
+    """Removes the input node from its current spot in the
     List and inserts it as the new tail node of the List."""
 
     def move_to_end(self, node):
@@ -161,6 +161,27 @@ class Queue:
             return
         self.size -= 1
         return self.storage.remove_from_head()
+
+    def len(self):
+        return self.size
+
+
+class Stack:
+    def __init__(self):
+        self.size = 0
+        # Why is our DLL a good choice to store our elements?
+        # self.storage = ?
+        self.storage = DoublyLinkedList()
+
+    def push(self, value):
+        self.storage.add_to_tail(value)
+        self.size += 1
+
+    def pop(self):
+        if self.size == 0:
+            return
+        self.size -= 1
+        return self.storage.remove_from_tail()
 
     def len(self):
         return self.size
@@ -230,25 +251,44 @@ class BinarySearchTree:
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
     def in_order_print(self, node):
-        pass
+        if node:
+            self.in_order_print(node.left)
+            print(node.value)
+            self.in_order_print(node.right)
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self, node):
-        pass
+        storage = Queue()
+        storage.enqueue(self)
+        while storage.len() != 0:
+            current = storage.dequeue()
+            print(current.value)
+            if current.left:
+                storage.enqueue(current.left)
+            if current.right:
+                storage.enqueue(current.right)
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self, node):
-        pass
+        storage = Stack()
+        storage.push(self)
+        while storage.len() > 0:
+            current = storage.pop()
+            print(current.value)
+            if current.left:
+                storage.push(current.left)
+            if current.right:
+                storage.push(current.right)
 
     # STRETCH Goals -------------------------
     # Note: Research may be required
 
     # Print In-order recursive DFT
-    def pre_order_dft(self, node):
-        pass
+    # def pre_order_dft(self, node):
+    #     pass
 
-    # Print Post-order recursive DFT
-    def post_order_dft(self, node):
-        pass
+    # # Print Post-order recursive DFT
+    # def post_order_dft(self, node):
+    #     pass
