@@ -60,7 +60,7 @@ class LRUCache:
             self.order.remove_from_tail()
             self.size -= 1
             #  add new pair to cache
-        self.order.add_to_head({key, value})
+        self.order.add_to_head((key, value))
         self.storage[key] = self.order.head
         self.size += 1
 
